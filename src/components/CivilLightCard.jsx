@@ -9,38 +9,47 @@ import {
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import DataWeatherLight from "../data/DataWeatherLight";
-import { getDateDetailsWeatherCivil } from "../data/DataHelper";
+import { getDateCivilLight } from "../data/DataHelper";
 import { IMAGESCIVILLIGHT } from "../services/ImageHelper";
+import { useNavigation } from "@react-navigation/native";
 
-const CivilLightCard = ({ navigation }) => {
-  const [data, setData] = useState([]);
+const CivilLightCard = () => {
+  const navigation = useNavigation();
+  const [dataCivilLight, setDataCivilLight] = useState([]);
+  const [dataCivil, setDataCivil] = useState([]);
 
   useEffect(() => {
-    setData(DataWeatherLight);
+    setDataCivilLight(DataWeatherLight);
+    setDataCivil("");
   }, []);
-  console.log(data);
 
   return (
     <>
-      {data ? (
+      {dataCivilLight ? (
         <View className="w-11/12">
           <ScrollView showsVerticalScrollIndicator={false} className="">
-            {data?.dataseries?.map((d, index) => (
+            {dataCivilLight?.dataseries?.map((d, index) => (
               <View key={index}>
+                <Text>{d.date}</Text>
+                <Text>{getDateCivilLight(d.date).day}</Text>
                 <Pressable
-                  onPress={() => navigation.navigate("Details", { data })}
+                  onPress={() =>
+                    navigation.navigate("Detail", {
+                      dateCivil: d.date,
+                    })
+                  }
                 >
                   <View className="rounded-xl my-1 bg-white/40 border border-slate-300 shadow-md">
                     <View className="flex-row px-4 justify-between items-center rounded-md bg-white/50 shadow-xl shadow-slate-500">
                       <Text className="text-3xl font-semibold">
-                        {getDateDetailsWeatherCivil(d.date).weekday}
+                        {getDateCivilLight(d.date).dayOfWeek}
                       </Text>
                       <View className="items-center">
                         <Text className="text-4xl font-semibold">
-                          {getDateDetailsWeatherCivil(d.date).day}
+                          {getDateCivilLight(d.date).day}
                         </Text>
                         <Text className="text-2xl">
-                          de {getDateDetailsWeatherCivil(d.date).month}
+                          de {getDateCivilLight(d.date).month}
                         </Text>
                       </View>
                     </View>

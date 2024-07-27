@@ -149,29 +149,6 @@ export function getLiftedIndex(index) {
   return item ? item.description : "Description not found";
 }
 
-export function addHoursAndExtractInfo(dateStr, hoursToAdd) {
-  // Parse the initial date and time string into a JavaScript Date object
-  const initialDate = new Date(
-    `${dateStr.slice(0, 4)}-${dateStr.slice(4, 6)}-${dateStr.slice(
-      6,
-      8
-    )}T${dateStr.slice(8, 10)}:00:00`
-  );
-
-  // Add hours to the date
-  const newDate = new Date(initialDate.getTime() + hoursToAdd * 60 * 60 * 1000);
-
-  // Extract year, month, day, hour, and day of the week
-  const year = newDate.getFullYear();
-  const month = newDate.getMonth() + 1; // Months are 0-based in JavaScript
-  const descMonth = newDate.toLocaleDateString("pt-BR", { month: "long" });
-  const day = newDate.getDate();
-  const hour = newDate.getHours();
-  const dayOfWeek = newDate.toLocaleDateString("pt-BR", { weekday: "long" }); // Full name of the day of the week
-
-  return [`${hour}h - ${dayOfWeek}, dia ${day} de ${descMonth} de ${year}`];
-}
-
 // Not used but keeped for future needs
 
 // export function addHoursToTimePoint(initialDateStr, hoursToAdd) {
@@ -221,28 +198,222 @@ export function addHoursAndExtractInfo(dateStr, hoursToAdd) {
 //   };
 // }
 
-// WEATHER CIVIL
+// WEATHER CIVIL LIGHT
 
-export function getDateDetailsWeatherCivil(dateInt) {
+export function getDateCivilLight(dateInt) {
   // Convert the integer to a string
   const dateString = dateInt.toString();
-  const year = dateString.substring(0, 4);
-  const month = dateString.substring(4, 6);
-  const day = dateString.substring(6, 8);
 
-  const date = new Date(`${year}-${month}-${day}`);
+  // Parse the date string
+  const year = parseInt(dateString.substring(0, 4), 10);
+  const month = parseInt(dateString.substring(4, 6), 10) - 1; // Month is 0-indexed
+  const day = parseInt(dateString.substring(6, 8), 10);
 
-  const weekdayFormatter = new Intl.DateTimeFormat("pt-BR", {
+  const date = new Date(year, month, day);
+
+  // Extract components
+  const dayOfWeek = new Intl.DateTimeFormat("pt-BR", {
     weekday: "long",
-  });
-  const dayFormatter = new Intl.DateTimeFormat("pt-BR", { day: "2-digit" });
-  const monthFormatter = new Intl.DateTimeFormat("pt-BR", { month: "long" });
-  const yearFormatter = new Intl.DateTimeFormat("pt-BR", { year: "numeric" });
+  }).format(date);
+  const monthLong = new Intl.DateTimeFormat("pt-BR", { month: "long" }).format(
+    date
+  );
+  const yearNumber = date.getFullYear();
+  const dayOfMonth = date.getDate();
 
   return {
-    weekday: weekdayFormatter.format(date),
-    day: dayFormatter.format(date),
-    month: monthFormatter.format(date),
-    year: yearFormatter.format(date),
+    year: yearNumber,
+    day: dayOfMonth,
+    dayOfWeek: dayOfWeek,
+    month: monthLong,
   };
 }
+
+// WEATHER CIVIL
+
+export function filterDataForDate(data, date) {
+  const initDateStr = data.init.slice(0, 8);
+  const initHour = parseInt(data.init.slice(8), 10);
+  const initDate = new Date(
+    `${initDateStr.slice(0, 4)}-${initDateStr.slice(4, 6)}-${initDateStr.slice(
+      6,
+      8
+    )}T${initHour}:00:00Z`
+  );
+
+  return data.dataseries.filter((entry) => {
+    const entryDate = new Date(initDate.getTime() + entry.timepoint * 3600000);
+    const entryDateStr = entryDate.toISOString().slice(0, 10).replace(/-/g, "");
+    return parseInt(entryDateStr, 10) === date;
+  });
+}
+
+export function addHoursAndExtractInfo(dateInt, hoursToAdd) {
+  const dateStr = dateInt.toString();
+  console.log(dateStr);
+  console.log(hoursToAdd);
+
+  // Parse the initial date and time string into a JavaScript Date object
+  const initialDate = new Date(
+    `${dateStr.slice(0, 4)}-${dateStr.slice(4, 6)}-${dateStr.slice(
+      6,
+      8
+    )}T${dateStr.slice(8, 10)}:00:00`
+  );
+
+  // Add hours to the date
+  const newDate = new Date(initialDate.getTime() + hoursToAdd * 60 * 60 * 1000);
+
+  // Extract year, month, day, hour, and day of the week
+  const year = newDate.getFullYear();
+  const month = newDate.getMonth() + 1; // Months are 0-based in JavaScript
+  const descMonth = newDate.toLocaleDateString("pt-BR", { month: "long" });
+  const day = newDate.getDate();
+  const hour = newDate.getHours();
+  const dayOfWeek = newDate.toLocaleDateString("pt-BR", { weekday: "long" }); // Full name of the day of the week
+
+  // return [`${hour}h - ${dayOfWeek}, dia ${day} de ${descMonth} de ${year}`];
+
+  return {
+    hour: hour,
+    day: day,
+    dayOfWeek: dayOfWeek,
+    month: month,
+    descMonth: descMonth,
+    year: year,
+  };
+}
+
+// PORTUGUESE
+
+const weather_description_port = [
+  {
+    index: "clearday",
+    description: "nuvens inferior a 20%",
+  },
+  {
+    index: "pcloudyday",
+    description: "nuvens entre 20% -60%",
+  },
+  {
+    index: "mcloudyday",
+    description: "nuvens entre 60%-80%",
+  },
+  {
+    index: "cloudyday",
+    description: "nuvens superior a 80%",
+  },
+  {
+    index: "humidday",
+    description:
+      "Umidade relativa superior a 90% com cobertura total de nuvens inferior a 60%",
+  },
+  {
+    index: "lightrainday",
+    description:
+      "Taxa de precipitação inferior a 4 mm/h com cobertura total de nuvens superior a 80%",
+  },
+  {
+    index: "oshowerday",
+    description:
+      "Taxa de precipitação inferior a 4 mm/h com cobertura total de nuvens entre 60%-80%",
+  },
+  {
+    index: "ishowerday",
+    description:
+      "Taxa de precipitação inferior a 4 mm/h com cobertura total de nuvens inferior a 60%",
+  },
+  {
+    index: "lightsnowday",
+    description: "Taxa de precipitação inferior a 4 mm/h",
+  },
+  { index: "rainday", description: "Taxa de precipitação acima de 4 mm/h" },
+  { index: "snowday", description: "Taxa de precipitação acima de 4 mm/h" },
+  {
+    index: "rainsnowday",
+    description: "Tipo de precipitação: bolinhas de gelo ou chuva congelante",
+  },
+  {
+    index: "tsday",
+    description:
+      "Índice elevado inferior a -5 com taxa de precipitação inferior a 4 mm/h",
+  },
+  {
+    index: "tsrainday",
+    description:
+      "Índice levantado inferior a -5 com taxa de precipitação superior a 4 mm/h",
+  },
+  {
+    index: "clearnight",
+    description: "nuvens inferior a 20%",
+  },
+  {
+    index: "pcloudynight",
+    description: "nuvens entre 20% -60%",
+  },
+  {
+    index: "mcloudynight",
+    description: "nuvens entre 60%-80%",
+  },
+  {
+    index: "cloudynight",
+    description: "nuvens superior a 80%",
+  },
+  {
+    index: "humidnight",
+    description:
+      "Umidade relativa superior a 90% com cobertura total de nuvens inferior a 60%",
+  },
+  {
+    index: "lightrainnight",
+    description:
+      "Taxa de precipitação inferior a 4 mm/h com cobertura total de nuvens superior a 80%",
+  },
+  {
+    index: "oshowernight",
+    description:
+      "Taxa de precipitação inferior a 4 mm/h com cobertura total de nuvens entre 60%-80%",
+  },
+  {
+    index: "ishowernight",
+    description:
+      "Taxa de precipitação inferior a 4 mm/h com cobertura total de nuvens inferior a 60%",
+  },
+  {
+    index: "lightsnownight",
+    description: "Taxa de precipitação inferior a 4 mm/h",
+  },
+  { index: "rainnight", description: "Taxa de precipitação acima de 4 mm/h" },
+  { index: "snownight", description: "Taxa de precipitação acima de 4 mm/h" },
+  {
+    index: "rainsnownight",
+    description: "Tipo de precipitação: bolinhas de gelo ou chuva congelante",
+  },
+  {
+    index: "tsnight",
+    description:
+      "Índice elevado inferior a -5 com taxa de precipitação inferior a 4 mm/h",
+  },
+  {
+    index: "tsrainnight",
+    description:
+      "Índice levantado inferior a -5 com taxa de precipitação superior a 4 mm/h",
+  },
+];
+
+export function getWeatherDescriptionPort(index) {
+  const item = weather_description_port.find((item) => item.index == index);
+  return item ? item.description : "Description not found";
+}
+
+const cloud_cover = [
+  { index: 1, description: "0%-6%" },
+  { index: 2, description: "6%-19%" },
+  { index: 3, description: "19%-31%" },
+  { index: 4, description: "31%-44%" },
+  { index: 5, description: "44%-56%" },
+  { index: 6, description: "56%-69%" },
+  { index: 7, description: "69%-81%" },
+  { index: 8, description: "81%-94%" },
+  { index: 9, description: "94%-100%" },
+];

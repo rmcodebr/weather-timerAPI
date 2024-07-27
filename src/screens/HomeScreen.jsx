@@ -1,10 +1,4 @@
-import {
-  View,
-  Text,
-  Pressable,
-  ImageBackground,
-  StyleSheet,
-} from "react-native";
+import { View, Text, Pressable, ImageBackground } from "react-native";
 import React, { useState, useEffect } from "react";
 import DataWeatherLight from "../data/DataWeatherLight";
 
@@ -16,7 +10,6 @@ const HomeScreen = ({ navigation }) => {
   useEffect(() => {
     setData(DataWeatherLight);
   }, []);
-  console.log(data);
 
   return (
     <ImageBackground
@@ -24,14 +17,6 @@ const HomeScreen = ({ navigation }) => {
       source={require("../../assets/img/weatherDay.png")}
     >
       <View className="mt-10 justify-center items-center">
-        <View>
-          <Pressable
-            onPress={() => navigation.navigate("Detail")}
-            className="rounded-md bg-blue-500 p-2"
-          >
-            <Text className="text-xl">Details</Text>
-          </Pressable>
-        </View>
         <CivilLightCard />
       </View>
     </ImageBackground>

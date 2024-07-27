@@ -3,10 +3,11 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { StatusBar } from "expo-status-bar";
 import HomeScreen from "./src/screens/HomeScreen";
 import DetailScreen from "./src/screens/DetailScreen";
+import CivilLightCard from "./src/components/CivilLightCard";
 
-export default function App() {
-  const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator();
 
+function App() {
   return (
     <NavigationContainer>
       <StatusBar style="auto" />
@@ -20,3 +21,5 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+export default App;

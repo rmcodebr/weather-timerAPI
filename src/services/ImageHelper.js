@@ -46,3 +46,36 @@ export const WIND = {
 //   sulsudeste: require("../../assets/weatherIcons/wind/sul-sudeste.gif"),
 //   sulsudoeste: require("../../assets/weatherIcons/wind/sul-sudoeste.gif"),
 // };
+
+// WEATHER CIVIL
+
+export const IMAGESCIVIL = {
+  clearday: require("../../assets/weatherIcons/weathercivil/clearday.png"),
+  clearnight: require("../../assets/weatherIcons/weathercivil/clearnight.png"),
+  cloudyday: require("../../assets/weatherIcons/weathercivil/cloudyday.png"),
+  cloudynight: require("../../assets/weatherIcons/weathercivil/cloudynight.png"),
+  humidday: require("../../assets/weatherIcons/weathercivil/humidday.png"),
+  humidnight: require("../../assets/weatherIcons/weathercivil/humidnight.png"),
+  ishowerday: require("../../assets/weatherIcons/weathercivil/ishowerday.png"),
+  ishowernight: require("../../assets/weatherIcons/weathercivil/ishowernight.png"),
+  lightrainday: require("../../assets/weatherIcons/weathercivil/lightrainday.png"),
+  lightrainnight: require("../../assets/weatherIcons/weathercivil/lightrainnight.png"),
+  lightsnowday: require("../../assets/weatherIcons/weathercivil/lightsnowday.png"),
+  lightsnownight: require("../../assets/weatherIcons/weathercivil/lightsnownight.png"),
+  mcloudyday: require("../../assets/weatherIcons/weathercivil/mcloudyday.png"),
+  mcloudynight: require("../../assets/weatherIcons/weathercivil/mcloudynight.png"),
+  oshowerday: require("../../assets/weatherIcons/weathercivil/oshowerday.png"),
+  oshowernight: require("../../assets/weatherIcons/weathercivil/oshowernight.png"),
+  pcloudyday: require("../../assets/weatherIcons/weathercivil/pcloudyday.png"),
+  pcloudynight: require("../../assets/weatherIcons/weathercivil/pcloudynight.png"),
+  rainday: require("../../assets/weatherIcons/weathercivil/rainday.png"),
+  rainnight: require("../../assets/weatherIcons/weathercivil/rainnight.png"),
+  rainsnowday: require("../../assets/weatherIcons/weathercivil/rainsnowday.png"),
+  rainsnownight: require("../../assets/weatherIcons/weathercivil/rainsnownight.png"),
+  snowday: require("../../assets/weatherIcons/weathercivil/snowday.png"),
+  snownight: require("../../assets/weatherIcons/weathercivil/snownight.png"),
+  tsday: require("../../assets/weatherIcons/weathercivil/tsday.png"),
+  tsnight: require("../../assets/weatherIcons/weathercivil/tsnight.png"),
+  tsrainday: require("../../assets/weatherIcons/weathercivil/tsrainday.png"),
+  tsrainnight: require("../../assets/weatherIcons/weathercivil/tsrainnight.png"),
+};
