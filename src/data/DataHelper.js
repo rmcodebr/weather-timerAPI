@@ -15,15 +15,26 @@ export function getCloudDescription(index) {
   return item ? item.description : "Description not found";
 }
 
+// const wind_speed = [
+//   { index: 1, description: " 0.3m/s (calm)" },
+//   { index: 2, description: "0.3-3.4m/s (light)" },
+//   { index: 3, description: "3.4-8.0m/s (moderate)" },
+//   { index: 4, description: "8.0-10.8m/s (fresh)" },
+//   { index: 5, description: "10.8-17.2m/s (strong)" },
+//   { index: 6, description: "17.2-24.5m/s (gale)" },
+//   { index: 7, description: "24.5-32.6m/s (storm)" },
+//   { index: 8, description: "Over 32.6m/s (hurricane)" },
+// ];
+
 const wind_speed = [
-  { index: 1, description: " 0.3m/s (calm)" },
-  { index: 2, description: "0.3-3.4m/s (light)" },
-  { index: 3, description: "3.4-8.0m/s (moderate)" },
-  { index: 4, description: "8.0-10.8m/s (fresh)" },
-  { index: 5, description: "10.8-17.2m/s (strong)" },
-  { index: 6, description: "17.2-24.5m/s (gale)" },
-  { index: 7, description: "24.5-32.6m/s (storm)" },
-  { index: 8, description: "Over 32.6m/s (hurricane)" },
+  { index: 1, description: " 1km/h (calmo)" },
+  { index: 2, description: "1-12km/h (leve)" },
+  { index: 3, description: "12-29km/h (moderado)" },
+  { index: 4, description: "29-39km/h (regular)" },
+  { index: 5, description: "39-62km/h (forte)" },
+  { index: 6, description: "62-88km/h (ventania)" },
+  { index: 7, description: "88-117km/h (tempestade)" },
+  { index: 8, description: "150km/h (furacão)" },
 ];
 
 export function getWindDescription(index) {
@@ -417,3 +428,42 @@ const cloud_cover = [
   { index: 8, description: "81%-94%" },
   { index: 9, description: "94%-100%" },
 ];
+
+export function getCloudCoverDescriptionPort(index) {
+  const item = cloud_cover.find((item) => item.index == index);
+  return item ? item.description : "Description not found";
+}
+
+precipitation_amount = [
+  { index: "0", description: "0mm/hr" },
+  { index: "1", description: "0-0.25mm/hr" },
+  { index: "2", description: "0.25-1mm/hr" },
+  { index: "3", description: "1-4mm/hr" },
+  { index: "4", description: "4-10mm/hr" },
+  { index: "5", description: "10-16mm/hr" },
+  { index: "6", description: "16-30mm/hr" },
+  { index: "7", description: "30-50mm/hr" },
+  { index: "8", description: "50-75mm/hr" },
+  { index: "9", description: "Over 75mm/hr" },
+];
+
+export function getPreciptationAmountDescription(index) {
+  const item = precipitation_amount.find((item) => item.index == index);
+  return item ? item.description : "Description not found";
+}
+
+wind_direction_description = [
+  { index: "E", description: "este" },
+  { index: "NE", description: "nordeste" },
+  { index: "NW", description: "noroeste" },
+  { index: "N", description: "norte" },
+  { index: "W", description: "oeste" },
+  { index: "SE", description: "sudeste" },
+  { index: "SW", description: "sudoest" },
+  { index: "S", description: "sul" },
+];
+
+export function getWindDirectionDescription(index) {
+  const item = wind_direction_description.find((item) => item.index == index);
+  return item ? item.description : "Description not find";
+}

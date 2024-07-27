@@ -11,18 +11,21 @@ import DataWeather from "../data/DataWeatherCivil";
 import {
   addHoursAndExtractInfo,
   filterDataForDate,
+  getCloudCoverDescriptionPort,
   getCloudDescription,
   getDateCivilLight,
   getLiftedIndex,
   getPrecipitationRate,
   getPrecipitationType,
+  getPreciptationAmountDescription,
   getWeatherDescription,
   getWeatherDescriptionPort,
   getWeatherType,
   getWindDescription,
+  getWindDirectionDescription,
 } from "../data/DataHelper";
 import { useRoute } from "@react-navigation/native";
-import { IMAGESCIVIL } from "../services/ImageHelper";
+import { IMAGESCIVIL, WIND } from "../services/ImageHelper";
 
 const DetailScreen = ({ navigation }) => {
   const route = useRoute();
@@ -33,15 +36,20 @@ const DetailScreen = ({ navigation }) => {
     setDataWeather(filterDataForDate(DataWeather, date));
   }, []);
 
-  console.log(DataWeather.init);
-  console.log(dataWeather);
-
   return (
     <View className="flex-1">
       <View>
         <View>
           {date && (
             <View className="flex items-center mt-10 space-x-2">
+              <View className="w-full">
+                <Pressable
+                  onPress={() => navigation.navigate("Home")}
+                  className="rounded-md bg-blue-500 p-2"
+                >
+                  <Text className="text-xl">voltar</Text>
+                </Pressable>
+              </View>
               <View className="flex-row">
                 <Text className="text-3xl font-bold">
                   {getDateCivilLight(date).dayOfWeek},
@@ -75,7 +83,6 @@ const DetailScreen = ({ navigation }) => {
                       className="h-36 w-36 rounded-3xl"
                       source={IMAGESCIVIL[dCivil.weather]}
                     />
-                    <Text>{dCivil.weather}</Text>
                   </View>
                   <View className="rounded-lg w-48 border border-slate-300 p-4">
                     <View className="flex-row justify-between items-baseline">
@@ -117,7 +124,21 @@ const DetailScreen = ({ navigation }) => {
                       <View className="flex-row justify-evenly">
                         <Image
                           className="h-8 w-8 mx-2"
-                          source={require("../../assets/img/ic_umid.png")}
+                          source={require("../../assets/img/cloudCover.png")}
+                        />
+                      </View>
+                      <View className="flex">
+                        <Text className="text-lg flex-wrap">
+                          {getCloudCoverDescriptionPort(dCivil.cloudcover)}
+                        </Text>
+                      </View>
+                    </View>
+
+                    <View className="flex-row">
+                      <View className="flex-row justify-evenly">
+                        <Image
+                          className="h-8 w-8 mx-2"
+                          source={require("../../assets/img/humidity.png")}
                         />
                       </View>
                       <View className="flex">
@@ -126,16 +147,38 @@ const DetailScreen = ({ navigation }) => {
                     </View>
 
                     <View className="flex-row">
-                      <View className="flex-row justify-evenly items-center mt-5">
+                      <View className="flex-row justify-evenly">
                         <Image
-                          className="h-12 w-12"
-                          source={require("../../assets/weatherIcons/weather/windy.png")}
+                          className="h-8 w-8 mx-2"
+                          source={require("../../assets/img/preciptation.png")}
                         />
-                        <Text>
-                          {dCivil.wind10m_max * 3.6}{" "}
-                          <Text className="text-2xl">km/h</Text>
+                      </View>
+                      <View className="flex">
+                        <Text className="text-lg flex-wrap">
+                          {getPreciptationAmountDescription(dCivil.prec_amount)}
                         </Text>
                       </View>
+                    </View>
+
+                    <View className="flex-row">
+                      <View className="flex-row justify-evenly items-center mt-5">
+                        <Image
+                          className="h-6 w-6"
+                          source={require("../../assets/weatherIcons/weather/windy.png")}
+                        />
+                        <Text className="text-xl">
+                          {getWindDescription(dCivil.wind10m.speed)}
+                        </Text>
+                      </View>
+                    </View>
+                    <View className="flex items-center">
+                      <Image
+                        className="h-10 w-10 rounded-3xl"
+                        source={WIND[dCivil.wind10m.direction]}
+                      />
+                      <Text>
+                        {getWindDirectionDescription(dCivil.wind10m.direction)}
+                      </Text>
                     </View>
                   </View>
                 </View>
